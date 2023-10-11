@@ -1,10 +1,15 @@
 import React from 'react'
+import { PostsData } from '../../Data/PostData'
+import Post from '../post/Post'
+import './posts.css'
 
 function Posts() {
   return (
     <>
     <div className='posts'>
-    posts
+   {PostsData.map((post,id)=>{
+    return<Post data ={post} id ={id}/>
+   })}
     </div>
       
     </>
