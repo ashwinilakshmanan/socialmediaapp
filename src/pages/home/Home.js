@@ -9,7 +9,7 @@ function Home() {
       <div className='Home'>
         <ProfileSide/>
         <div className='postSide'>
-          Post
+         
           <PostSide/>
         </div>
         <div className='rightSide'>Right side</div>
