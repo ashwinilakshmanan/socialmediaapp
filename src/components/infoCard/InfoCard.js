@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './infoCard.css'
 import { UilPen } from '@iconscout/react-unicons'
+import ProfileModal from '../profileModal/ProfileModal'
+
+
 
 function InfoCard() {
+
+    const[modalOpen,setModalOpen] = useState(false) 
     return (
         <>
+   
             <div className='infoCard'>
                 <div className='infoHead'>
                     <h4>Your Info</h4>
                     <div>
-                        <UilPen width='2rem' height='1.2rem' />
+                        <UilPen width='2rem' height='1.2rem' onClick ={()=>setModalOpen(true)}/>
+                        <ProfileModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
                     </div>
                 </div>
 
@@ -37,6 +44,7 @@ function InfoCard() {
                 <button className='button logout-button'>Logout</button>
 
             </div>
+           
         </>
     )
 }

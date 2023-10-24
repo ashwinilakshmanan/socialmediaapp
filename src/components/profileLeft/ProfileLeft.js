@@ -4,6 +4,7 @@ import FollowersCard from '../followersCard/FollowersCard'
 import InfoCard from '../infoCard/InfoCard'
 
 
+
 function ProfileLeft() {
   return (
     <>
