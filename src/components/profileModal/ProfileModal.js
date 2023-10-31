@@ -13,13 +13,41 @@ function ProfileModal({modalOpen,setModalOpen}) {
       }
       overlayOpacity={0.55}
       overlayBlur={3}
+      size="55%"
       opened={modalOpen}
-      onClose={()=>setModalOpen}
+      onClose={()=>setModalOpen(false)}
       >
 
-       <form className='infoForm'>
-        <h3>Your Info</h3>
-       </form>
+      <form className="infoForm">
+        <h3>your info</h3>
+
+        <div>
+          <input type="text" className="infoInput" name="firstName" placeholder="First Name"/>
+          <input type="text" className="infoInput" name="lastName" placeholder="Last Name"/>
+        </div>
+
+        <div>
+        <input type="text" className="infoInput" name="worksAt" placeholder="Works at"/>
+        </div>
+
+        <div>
+        <input type="text" className="infoInput" name="livesIn" placeholder="Lives in"/>
+        <input type="text" className="infoInput" name="country" placeholder="Country"/>
+        </div>
+
+        <div>
+        <input type="text" className="infoInput" name="relationship" placeholder="Relationship Status"/>
+        </div>
+
+        <div>
+          Profile Image
+          <input type="file" name="profileImg"/>
+          Cover Image
+          <input type="file" name="coverImg"/>
+        </div>
+
+        <button className="button infoButton">Update</button>
+      </form>
       </Modal>
 
     </>
