@@ -16,6 +16,8 @@ function PostShare() {
   const desc = useRef();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+
 
   //handle image change
   const onImageChange = (event) => {
@@ -61,7 +63,14 @@ function PostShare() {
   return (
     <>
       <div className="postShare">
-        <img src={Profile} alt="profileimg" />
+        <img
+          src={
+            user.profilePicture
+              ? serverPublic + user.profilePicture
+              : serverPublic + "defaultProfile.png"
+          }
+          alt="profileimg"
+        />
         <div>
           <input
             type="text"

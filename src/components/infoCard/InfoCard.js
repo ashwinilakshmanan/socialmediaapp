@@ -1,54 +1,93 @@
-import React, { useState } from 'react'
-import './infoCard.css'
-import { UilPen } from '@iconscout/react-unicons'
-import ProfileModal from '../profileModal/ProfileModal'
-import { MantineProvider } from '@mantine/core'
-
-
+import React, { useEffect, useState } from "react";
+import "./infoCard.css";
+import { UilPen } from "@iconscout/react-unicons";
+import ProfileModal from "../profileModal/ProfileModal";
+import { MantineProvider } from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import * as UserApi from "../../api/UserRequest.js";
+import { logOut } from "../../actions/AuthAction.js";
 
 function InfoCard() {
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const[modalOpen,setModalOpen] = useState(false) 
-    return (
-        <>
-   <MantineProvider>
-            <div className='infoCard'>
-                <div className='infoHead'>
-                    <h4>Your Info</h4>
-                    <div>
-                        <UilPen width='2rem' height='1.2rem' onClick ={()=>{setModalOpen(true); console.log(modalOpen);}}/>
-                        <ProfileModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
-                    </div>
-                </div>
+  const dispatch = useDispatch();
+  const params = useParams();
+  const profileUserId = params.id;
+  const [profileUser, setProfileUser] = useState({});
 
-                <div className='info'>
-                    <span>
-                        <b>Status </b>
-                    </span>
-                    <span>in RelationShip</span>
-                </div>
+  const { user } = useSelector((state) => state.authReducer.authData);
 
-                <div className='info'>
-                    <span>
-                        <b>Lives in </b>
-                    </span>
-                    <span> America</span>
-                </div>
+  useEffect(() => {
+    const fetchProfileUser = async () => {
+      if (profileUserId === user._id) {
+        setProfileUser(user);
+        console.log(user);
+      } else {
+        const profileUser = await UserApi.getUser(profileUserId);
+        setProfileUser(profileUser);
+        console.log(profileUser);
+      }
+    };
+    fetchProfileUser();
+  }, [user]);
 
-                <div className='info'>
-                    <span>
-                        <b>Work at </b>
-                    </span>
-                    <span> Google</span>
-                </div>
+  const handleLogOut = () =>{
+    dispatch(logOut())
+  }
+  return (
+    <>
+      <MantineProvider>
+        <div className="infoCard">
+          <div className="infoHead">
+            <h4>Profile Info</h4>
+            {user._id === profileUserId ? (
+              <div>
+                <UilPen
+                  width="2rem"
+                  height="1.2rem"
+                  onClick={() => {
+                    setModalOpen(true);
+                    console.log(modalOpen);
+                  }}
+                />
+                <ProfileModal
+                  modalOpen={modalOpen}
+                  setModalOpen={setModalOpen}
+                  data = {user}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
 
-                <button className='button logout-button'>Logout</button>
+          <div className="info">
+            <span>
+              <b>Status </b>
+            </span>
+            <span>{profileUser.relationship}</span>
+          </div>
 
-            </div>
-            </MantineProvider>
-           
-        </>
-    )
+          <div className="info">
+            <span>
+              <b>Lives in </b>
+            </span>
+            <span>{profileUser.livesin}</span>
+          </div>
+
+          <div className="info">
+            <span>
+              <b>Work at </b>
+            </span>
+            <span>{profileUser.worksAt}</span>
+          </div>
+
+          <button className="button logout-button" onClick={handleLogOut}>Logout</button>
+        </div>
+      </MantineProvider>
+    </>
+  );
 }
 
-export default InfoCard
+export default InfoCard;
